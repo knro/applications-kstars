@@ -1,0 +1,51 @@
+name: kstars
+version: 16.07.70-snap1
+summary: Desktop Planetarium.
+description: KStars is a Desktop Planetarium for KDE. It provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. The display includes up to 100 million stars, 13,000 deep-sky objects, all 8 planets, the Sun and Moon, and thousands of comets and asteroids.
+
+apps:
+  kstars:
+    command: qt5-launch usr/bin/kstars
+    plugs: [x11, unity7, home, opengl, network, network-bind, network-manager]
+    
+parts:
+  kstars:
+    plugin: nil
+    #configflags: [-DCMAKE_INSTALL_PREFIX=/usr]
+    #source: git://anongit.kde.org/kanagram.git
+    #source-type: git
+    stage-packages:
+      - kstars
+      - libqt5sql5-sqlite
+      - sqlite3
+    filesets:
+      binaries:
+        - usr/bin
+      libraries:
+        - usr/lib/*
+      headers:
+        - usr/include/*
+        - usr/lib/*/cmake/*
+    stage:
+      - $binaries
+      - etc
+      - usr/share/*
+      - $libraries
+    snap: 
+      - etc
+      - $libraries
+      - $binaries
+      - usr/share/*
+  environment:
+    plugin: copy
+    files:
+      qt5-launch: bin/qt5-launch
+  integration:
+    plugin: nil
+    stage-packages:
+      - ttf-ubuntu-font-family
+      - breeze-icon-theme
+      - hicolor-icon-theme
+      - oxygen-icon-theme
+    snap:
+      - usr/share 
